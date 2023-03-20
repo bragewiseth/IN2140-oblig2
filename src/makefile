@@ -9,6 +9,10 @@ create_fs: allocation.c inode.c
 	gcc -g -Wall -Wextra -std=gnu11 create_fs.c allocation.c inode.c -o ../bin/create_fs
 
 
+test: inode.c testinode.c
+	gcc -ggdb -Wall -Wextra -std=gnu11 testinode.c inode.c -o ../bin/test
+	../bin/test
+
 run_check_disk: check_disk
 	../bin/check_disk
 
