@@ -44,6 +44,9 @@ static char* read_table( )
     return table;
 }
 
+
+
+
 static int write_table( char* table )
 {
     FILE* f = fopen( file_name, "w" );
@@ -64,6 +67,10 @@ static int write_table( char* table )
     fclose( f );
     return 0;
 }
+
+
+
+
 
 int format_disk()
 {
@@ -89,6 +96,9 @@ int format_disk()
     return -1;
 }
 
+
+
+
 int allocate_block( )
 {
     char* table = read_table( );
@@ -111,6 +121,11 @@ int allocate_block( )
     free( table );
     return -1;
 }
+
+
+
+
+
 
 int free_block(int block)
 {
@@ -140,6 +155,9 @@ int free_block(int block)
 
     return 0;
 }
+
+
+
 
 void debug_disk( )
 {
