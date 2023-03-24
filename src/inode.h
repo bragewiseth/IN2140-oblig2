@@ -21,7 +21,7 @@ typedef struct inode
 	char       is_directory;
 	char       is_readonly;
 	int        filesize;
-	int        num_entries;
+	int        num_entries; 
 	uintptr_t* entries;
 } inode;
 

@@ -61,8 +61,10 @@ struct inode* create_file( struct inode* parent, char* name, char readonly, int 
     strcpy(name_copy, name);
     // make new_file
     inode * new_file = malloc(sizeof(inode));
+    if ( new_file == NULL ) perror("malloc failed in create_file()");
     // place block number in the entries
     new_file -> entries = malloc(sizeof(uintptr_t) * num_blocks +1);
+    if ( new_file-> entries == NULL ) perror("malloc failed in create_file()");
     for (int i=0; i < num_blocks; i++) { new_file -> entries[i] = blocks[i]; }
 
     // set values
@@ -74,6 +76,7 @@ struct inode* create_file( struct inode* parent, char* name, char readonly, int 
     new_file -> num_entries = num_blocks;
     // add the file to the parent entries
     parent -> entries = realloc( parent->entries, (num_entries * sizeof(uintptr_t*)) + sizeof(uintptr_t*));
+    if ( parent->entries == NULL ) perror("malloc failed in create_file()");
     parent -> entries[num_entries] = (uintptr_t) new_file;
     parent -> num_entries++;
     // increment ID
@@ -96,12 +99,15 @@ struct inode* create_dir( struct inode* parent, char* name )
         parent -> num_entries++;
         // realloc parent entries
         parent -> entries = realloc(parent -> entries, (num_entries * sizeof(uintptr_t*)) + sizeof(uintptr_t*));
+        if ( parent->entries == NULL ) perror("malloc failed in create_dir()");
     }
 
     // copy name into new memory
     char * name_copy = malloc(strlen(name) + 1);
+    if ( name_copy == NULL ) perror("malloc failed in create_dir()");
     strcpy(name_copy, name);
     inode * new_directory = malloc(sizeof(inode));
+    if ( new_directory == NULL ) perror("malloc failed in create_dir()");
     // set values
     new_directory -> id = next_inode_id; 
     new_directory -> name = name_copy;
@@ -110,6 +116,7 @@ struct inode* create_dir( struct inode* parent, char* name )
     new_directory -> filesize = 0;
     new_directory -> num_entries = 0;
     new_directory -> entries = malloc(sizeof(uintptr_t*)); // add one size to avoid segfault when debugging
+    if ( new_directory->entries == NULL ) perror("malloc failed in create_dir()");
     if ( parent != NULL) parent -> entries[num_entries] = (uintptr_t) new_directory;
     next_inode_id++;
     return new_directory;
